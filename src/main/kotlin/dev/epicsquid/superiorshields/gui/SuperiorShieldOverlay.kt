@@ -65,10 +65,10 @@ class SuperiorShieldOverlay : IGuiOverlay {
 		if (player.activeEffectsMap.containsKey(MobEffects.ABSORPTION)) {
 			defaultYOffset += 10
 		}
-		if (player.maxHealth > 20.0f) {
-			// TODO test if this works with Blood Magic
-			defaultYOffset += 10
-		}
+		// if (player.maxHealth > 20.0f) {
+		// 	// TODO test if this works with Blood Magic
+		// 	defaultYOffset += 10
+		// }
 
 		RenderSystem.enableBlend()
 		RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA)

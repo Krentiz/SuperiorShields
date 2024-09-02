@@ -7,8 +7,12 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
 
 object ClientEventManager {
 
-	@SubscribeEvent
-	fun onRegisterGuiOverlays(event: RegisterGuiOverlaysEvent) {
-		event.registerAbove(VanillaGuiOverlay.PLAYER_HEALTH.id(), "superior_shield_overlay", SuperiorShieldOverlay())
-	}
+    @SubscribeEvent
+    fun onRegisterGuiOverlays(event: RegisterGuiOverlaysEvent) {
+        event.registerAbove(
+                VanillaGuiOverlay.ARMOR_LEVEL.id(),
+                "superior_shield_overlay",
+                SuperiorShieldOverlay()
+        )
+    }
 }

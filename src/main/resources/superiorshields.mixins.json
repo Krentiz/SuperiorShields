@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.krentiz.superiorshields.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [],
+  "client": ["GuiMixin", "ForgeGuiMixin"],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

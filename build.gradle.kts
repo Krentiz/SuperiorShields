@@ -1,3 +1,5 @@
+import org.spongepowered.asm.gradle.plugins.MixinExtension
+import org.spongepowered.asm.gradle.plugins.struct.DynamicProperties
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -227,6 +229,17 @@ dependencies {
 	minecraftLibrary("io.github.llamalad7:mixinextras-forge:$mixinExtrasVersion")
 }
 
+val Project.mixin: MixinExtension
+    get() = extensions.getByType()
+
+mixin.run {
+    add(sourceSets.main.get(), "superiorshields.mixins.refmap.json")
+    config("superiorshields.mixins.json")
+    val debug = this.debug as DynamicProperties
+    debug.setProperty("verbose", true)
+    debug.setProperty("export", true)
+    setDebug(debug)
+}
 
 tasks.withType<ProcessResources> {
 	inputs.property("version", version)

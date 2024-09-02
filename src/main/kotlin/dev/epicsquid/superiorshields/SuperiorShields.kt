@@ -24,51 +24,68 @@ import thedarkcolour.kotlinforforge.forge.runForDist
 
 @Mod(SuperiorShields.MODID)
 object SuperiorShields {
-	const val MODID = "superiorshields"
+    const val MODID = "superiorshields"
 
-	init {
-		JeiCompat.classload()
-		ModLoadingContext.get()
-			.registerConfig(ModConfig.Type.SERVER, Config.SHIELDS_CONFIG_SPEC, "superior-shields-server.toml")
-		val modEventBus = MOD_BUS
+    init {
+        JeiCompat.classload()
+        ModLoadingContext.get()
+                .registerConfig(
+                        ModConfig.Type.SERVER,
+                        Config.SHIELDS_CONFIG_SPEC,
+                        "superior-shields-server.toml"
+                )
+        val modEventBus = MOD_BUS
 
-		MinecraftForge.EVENT_BUS.register(EventManager)
-		modEventBus.addListener { _: FMLCommonSetupEvent -> NetworkHandler.register() }
-		runForDist(
-			clientTarget = { modEventBus.register(ClientEventManager) },
-			serverTarget = {}
-		)
+        MinecraftForge.EVENT_BUS.register(EventManager)
+        modEventBus.addListener { _: FMLCommonSetupEvent -> NetworkHandler.register() }
+        runForDist(clientTarget = { modEventBus.register(ClientEventManager) }, serverTarget = {})
 
-		EnchantmentRegistry.REGISTRY.register(modEventBus)
-		ItemRegistry.REGISTRY.register(modEventBus)
-		CreativeTabsRegistry.REGISTRY.register(modEventBus)
-		GlobalLootModifierRegistry.REGISTRY.register(modEventBus)
+        EnchantmentRegistry.REGISTRY.register(modEventBus)
+        ItemRegistry.REGISTRY.register(modEventBus)
+        CreativeTabsRegistry.REGISTRY.register(modEventBus)
+        GlobalLootModifierRegistry.REGISTRY.register(modEventBus)
 
-		modEventBus.addListener(LOWEST, this::onGatherData)
-	}
+        modEventBus.addListener(LOWEST, this::onGatherData)
+    }
 
-	private fun onGatherData(event: GatherDataEvent) {
-		val generator = event.generator
-		val output = generator.packOutput
-		generator.addProvider(event.includeClient(), SuperiorShieldsLang(output, "en_us"))
-		generator.addProvider(event.includeClient(), SuperiorShieldsItemModels(output, event.existingFileHelper))
-		generator.addProvider(event.includeClient(), SuperiorShieldsSpriteSources(output, event.existingFileHelper))
+    private fun onGatherData(event: GatherDataEvent) {
+        val generator = event.generator
+        val output = generator.packOutput
+        generator.addProvider(event.includeClient(), SuperiorShieldsLang(output, "en_us"))
+        generator.addProvider(
+                event.includeClient(),
+                SuperiorShieldsItemModels(output, event.existingFileHelper)
+        )
+        generator.addProvider(
+                event.includeClient(),
+                SuperiorShieldsSpriteSources(output, event.existingFileHelper)
+        )
 
-		val blockTagsProvider =
-			object : BlockTagsProvider(output, event.lookupProvider, MODID, event.existingFileHelper) {
-				override fun addTags(pProvider: Provider) {
-				}
-			}
-		generator.addProvider(event.includeServer(), blockTagsProvider)
-		generator.addProvider(
-			event.includeServer(),
-			SuperiorShieldsItemTags(output, event.lookupProvider, blockTagsProvider, event.existingFileHelper)
-		)
-		generator.addProvider(event.includeServer(), SuperiorShieldsRecipes(output))
-		generator.addProvider(
-			event.includeServer(),
-			SuperiorShieldsCurios(output, event.existingFileHelper, event.lookupProvider)
-		)
-		generator.addProvider(event.includeServer(), SuperiorShieldsGlobalLoot(output))
-	}
+        val blockTagsProvider =
+                object :
+                        BlockTagsProvider(
+                                output,
+                                event.lookupProvider,
+                                MODID,
+                                event.existingFileHelper
+                        ) {
+                    override fun addTags(pProvider: Provider) {}
+                }
+        generator.addProvider(event.includeServer(), blockTagsProvider)
+        generator.addProvider(
+                event.includeServer(),
+                SuperiorShieldsItemTags(
+                        output,
+                        event.lookupProvider,
+                        blockTagsProvider,
+                        event.existingFileHelper
+                )
+        )
+        generator.addProvider(event.includeServer(), SuperiorShieldsRecipes(output))
+        generator.addProvider(
+                event.includeServer(),
+                SuperiorShieldsCurios(output, event.existingFileHelper, event.lookupProvider)
+        )
+        generator.addProvider(event.includeServer(), SuperiorShieldsGlobalLoot(output))
+    }
 }

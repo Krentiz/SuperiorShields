@@ -47,3 +47,4 @@ eiostore.jks
 
 build\.sh
 run-data
+.vscode/settings.json

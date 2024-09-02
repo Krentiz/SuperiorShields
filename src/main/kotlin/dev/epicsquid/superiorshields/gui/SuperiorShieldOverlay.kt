@@ -10,7 +10,6 @@ import dev.epicsquid.superiorshields.registry.CapabilityRegistry.shield
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.player.Player
 import net.minecraftforge.client.gui.overlay.ForgeGui
 import net.minecraftforge.client.gui.overlay.IGuiOverlay
@@ -69,15 +68,9 @@ class SuperiorShieldOverlay : IGuiOverlay {
         if (player.armorValue > 0) {
             defaultYOffset += 10
         }
-        if (player.activeEffectsMap.containsKey(MobEffects.ABSORPTION) &&
-                        player.getAbsorptionAmount() > 0
-        ) {
+        if (player.getAbsorptionAmount() > 0) {
             defaultYOffset += 10
         }
-        // if (player.maxHealth > 20.0f) {
-        // 	// TODO test if this works with Blood Magic
-        // 	defaultYOffset += 10
-        // }
 
         RenderSystem.enableBlend()
         RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA)

@@ -12,6 +12,6 @@ public abstract class ForgeGuiMixin {
 
     @ModifyVariable(method = "renderRecordOverlay(IIFLnet/minecraft/client/gui/GuiGraphics;)V", at = @At("STORE"), ordinal = 3, remap = false)
     private int shiftRecordOverlay(int shiftOffset) {
-        return shiftOffset + shiftOffsetProvider.shiftOffset();
+        return shiftOffset + shiftOffsetProvider.getShiftOffset();
     }
 }

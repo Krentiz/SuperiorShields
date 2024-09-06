@@ -34,8 +34,11 @@ public class shiftOffsetProvider {
     public static int getShiftOffset() {
         Minecraft minecraft = Minecraft.getInstance();
         Player playerEntity = minecraft.player;
-        if (playerEntity instanceof Player && CuriosApi.getCuriosInventory(playerEntity).isPresent())
-            shiftOffset(playerEntity);
+        if (playerEntity instanceof Player && CuriosApi.getCuriosInventory(playerEntity).isPresent()) {
+            if (minecraft.gameMode != null && minecraft.gameMode.canHurtPlayer())
+                shiftOffset(playerEntity);
+        }
+
         return yShift;
     }
 
